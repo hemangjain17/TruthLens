@@ -65,33 +65,21 @@ TruthLens is dedicated to combating the rapid spread of misinformation in live b
 ## 💻 Installation Guide
 1. Clone the repository:
    ```bash
-   git clone https://github.com/soodaryan/TruthLens.git
+   git clone https://github.com/hemangjain17/TruthLens.git
    ```
 2. Navigate to the directory:
    ```bash
    cd TruthLens
    ```
-3. Set Up a Virtual Environment
-   It is recommended to create a virtual environment to manage dependencies. Run the following commands to set it up:
-   For Linux/macOS:
-   ```bash
-       python3 -m venv venv
-       source venv/bin/activate
-   ```
-   For Windows:
-   ```bash
-       python3 -m venv venv
-       venv/bin/activate
-   ```
-4. Install dependencies:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-5. Run the backend:
+4. Run the backend:
    ```bash
    python backend/main.py
    ```
-6. Start the frontend:
+5. Start the frontend:
    ```bash
    cd frontend
    npm install
@@ -119,35 +107,4 @@ If you want to check out some specific functionalities, you can directly execute
     python images/deepfake_detection.py
     python images/OCR.py
    ```
-
----
-
-## 🙌 Contributing
-We welcome contributions! Feel free to submit issues or pull requests. For major changes, please discuss them in an issue first. Let’s work together to make TruthLens even better! 💪
-
----
-
-## 📄 License
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## 🔗 Useful Links
-- **GitHub Repository**: [TruthLens Repository](https://github.com/soodaryan/TruthLens)
-- **Demo Video**: [TruthLens Demo](https://youtu.be/LEagBLGoj9A)
-- **Acknowledgments**:
-  - [Hugging Face Models](https://huggingface.co/)
-  - [SightEngine API](https://sightengine.com/)
-  - [Google Speech Recognition API](https://cloud.google.com/speech-to-text)
-
----
-
-## 👥 Team
-- **Ishan Chugh**: Backend and Deployment Lead ([LinkedIn](https://www.linkedin.com/in/ishanchugh01/))
-- **Hemant Verma**: Frontend and AI Lead ([LinkedIn](https://www.linkedin.com/in/hemantverma06/))
-- **Aryan Sood**: Design and GenAI Lead ([LinkedIn](https://www.linkedin.com/in/soodaryan/))
-- **Hemang Jain**: Data and Frontend Lead ([LinkedIn](https://www.linkedin.com/in/jain-hemang/))
-- **Vishrut Grover**: Design and ML Lead ([LinkedIn](https://www.linkedin.com/in/vishrutgrover/))
-
----
 
