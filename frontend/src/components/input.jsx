@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useAuth } from "../context/authContext";
+import InputTutorial from "./InputTutorial";
 
 const InputForm = () => {
   const [videos, setVideos] = useState([]);
@@ -14,6 +15,7 @@ const InputForm = () => {
   const [linkInput, setLinkInput] = useState("");
   const [videoLinkInput, setVideoLinkInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
   const { currentUser } = useAuth();
   const { userLoggedIn } = useAuth();
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ const InputForm = () => {
 
     // Send the FormData to the backend
     try {
-      const response = await fetch("https://truthlens.aimsdtu.in:3000/upload-media", {
+      const response = await fetch("https://localhost:3000/upload-media", {
         method: "POST",
         body: formData, // Send the FormData object
       });
@@ -80,21 +82,22 @@ const InputForm = () => {
       if (response.ok) {
         console.log("Media uploaded successfully!");
         // alert("Media uploaded successfully!");
-        
 
-        toast.success("Input submitted! Go to 'Trends & Reports' to check insights.", {
-          position: "top-right",
-          autoClose: 3000,  // Closes in 3 seconds
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
+        toast.success(
+          "Input submitted! Go to 'Trends & Reports' to check insights.",
+          {
+            position: "top-right",
+            autoClose: 3000, // Closes in 3 seconds
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
 
         setTimeout(() => {
           navigate("/trend-and-report");
         }, 3500);
-
       } else {
         console.error("Failed to upload media:", response.statusText);
         // alert("Upload failed! Please try again.");
@@ -104,22 +107,38 @@ const InputForm = () => {
           autoClose: 3000,
         });
       }
-
     } catch (error) {
-        console.error("Failed to upload media:", error.response?.data || error.message);
-        // alert("Upload failed! Please try again.");
+      console.error(
+        "Failed to upload media:",
+        error.response?.data || error.message
+      );
+      // alert("Upload failed! Please try again.");
 
-        toast.error("Something went wrong! Try again later.", {
-          position: "top-right",
-          autoClose: 3000,
-        });
+      toast.error("Something went wrong! Try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
+  const handleTutorialClose = () => {
+    setShowTutorial(false);
+  };
+
+  // Utility function to manually trigger tutorial (for testing)
+  useEffect(() => {
+    window.startInputTutorial = () => {
+      setShowTutorial(true);
+    };
+  }, []);
+
   return (
     <>
       <Sidebar />
+      {showTutorial && (
+        <InputTutorial autoStart={true} onClose={handleTutorialClose} />
+      )}
       <div className="bg-gray-100 text-gray-900 flex justify-center">
         <div className="ml-80 mr-20 mt-10 bg-white border border-gray-300 rounded-lg p-6 w-full shadow-lg">
           <h2 className="text-black font-semibold mb-6">Input Details</h2>
@@ -266,6 +285,7 @@ const InputForm = () => {
                 </div>
               ) : (
                 <button
+                  id="submitButton"
                   type="button"
                   onClick={handleSubmit}
                   className="w-full bg-primary-500 text-black font-medium py-2 rounded-lg hover:bg-primary-700 transition"

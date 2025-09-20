@@ -18,25 +18,27 @@ const TrendAnalysis = () => {
   const email = currentUser.email; // Replace with actual user email from auth
 
   useEffect(() => {
-      const fetchLatestData = async () => {
-          try {
-              const response = await fetch(`https://truthlens.aimsdtu.in:3000/get-latest-data?email=${email}`);
+    const fetchLatestData = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:3000/get-latest-data?email=${email}`
+        );
 
-              if (!response.ok) {
-                  throw new Error("Failed to fetch data");
-              }
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
 
-              const result = await response.json();
-              setLatestData(result.data);
-              console.log(result.data);
-          } catch (error) {
-              setError(error.message);
-          } finally {
-              setLoading(false);
-          }
-      };
+        const result = await response.json();
+        setLatestData(result.data);
+        console.log(result.data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchLatestData();
+    fetchLatestData();
   }, []);
   const reports = [
     {
@@ -59,7 +61,8 @@ const TrendAnalysis = () => {
     },
     {
       reporter: "Audio",
-      category: "दिल्ली में प्रधानमंत्री मोदी से सिंगर दिलजीत दोसांझ की मुलाकात हुई है।",
+      category:
+        "दिल्ली में प्रधानमंत्री मोदी से सिंगर दिलजीत दोसांझ की मुलाकात हुई है।",
       status: "True News",
       statusColor: "green",
     },
@@ -72,7 +75,13 @@ const TrendAnalysis = () => {
         height: 256,
       },
       series: [44, 55, 41, 17, 23],
-      labels: ["False Information", "Correct Information", "Hate Speech", "Sensitive Content", "Clickbait"],
+      labels: [
+        "False Information",
+        "Correct Information",
+        "Hate Speech",
+        "Sensitive Content",
+        "Clickbait",
+      ],
       colors: ["#0ea5e9", "#22c55e", "#a855f7", "#64748b", "#f59e0b"],
     };
 
@@ -91,7 +100,13 @@ const TrendAnalysis = () => {
       ],
       colors: ["#0ea5e9"],
       xaxis: {
-        categories: ["DD News", "Hindustan Times ", "Google News", "Fact Check API ", "Other"],
+        categories: [
+          "DD News",
+          "Hindustan Times ",
+          "Google News",
+          "Fact Check API ",
+          "Other",
+        ],
       },
     };
 
@@ -103,12 +118,9 @@ const TrendAnalysis = () => {
         patternOptions
       );
       // patternChart.render();
-
     } catch (error) {
       console.error("Error initializing charts:", error);
     }
-
-
   }, []);
 
   return (
@@ -219,10 +231,99 @@ const TrendAnalysis = () => {
               </ul>
             </div> */}
             <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">
-                Extracted Information
-              </h3>
-              <ReactMarkdown>{latestData?.inputInsights}</ReactMarkdown>
+              <h3 className="text-lg font-semibold mb-4">User Input Summary</h3>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">
+                    Text Input:
+                  </h4>
+                  <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded border">
+                    {latestData?.textInput || "No text input provided"}
+                  </p>
+                </div>
+
+                {latestData?.blogLinks?.length > 0 && (
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">
+                      Blog Links ({latestData.blogLinks.length}):
+                    </h4>
+                    <div className="space-y-2">
+                      {latestData.blogLinks.map((link, index) => (
+                        <div
+                          key={index}
+                          className="bg-gray-50 p-3 rounded border"
+                        >
+                          <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline text-sm break-all"
+                          >
+                            {link}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {latestData?.videoLinks?.length > 0 && (
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">
+                      Video Links ({latestData.videoLinks.length}):
+                    </h4>
+                    <div className="space-y-2">
+                      {latestData.videoLinks.map((link, index) => (
+                        <div
+                          key={index}
+                          className="bg-gray-50 p-3 rounded border"
+                        >
+                          <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline text-sm break-all"
+                          >
+                            {link}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {latestData?.uploadedVideos?.length > 0 && (
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">
+                      Uploaded Videos ({latestData.uploadedVideos.length}):
+                    </h4>
+                    <div className="space-y-2">
+                      {latestData.uploadedVideos.map((video, index) => (
+                        <div
+                          key={index}
+                          className="bg-gray-50 p-3 rounded border"
+                        >
+                          <p className="text-sm text-gray-700">
+                            <strong>Filename:</strong> {video.filename}
+                            <br />
+                            <strong>Size:</strong>{" "}
+                            {(video.size / (1024 * 1024)).toFixed(2)} MB
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">
+                    Raw Input Summary:
+                  </h4>
+                  <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded border">
+                    {latestData?.inputInsights || "No data available"}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex flex-col space-y-6 lg:col-span-2 xl:col-span-1">
@@ -245,17 +346,46 @@ const TrendAnalysis = () => {
 
             {/* 3rd Quadrant: Videos */}
             <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Videos</h3>
-              <div className="grid grid-cols-1 gap-4"></div>
+              <h3 className="text-lg font-semibold mb-4">Uploaded Videos</h3>
+              <div className="grid grid-cols-1 gap-4">
+                {latestData?.uploadedVideos?.length > 0 ? (
+                  latestData.uploadedVideos.map((video, index) => (
+                    <div key={index} className="bg-gray-50 p-3 rounded border">
+                      <p className="text-sm text-gray-700">
+                        <strong>Filename:</strong> {video.filename}
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        <strong>Size:</strong>{" "}
+                        {(video.size / (1024 * 1024)).toFixed(2)} MB
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        <strong>Path:</strong> {video.path}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-sm">No videos uploaded.</p>
+                )}
+              </div>
             </div>
 
             <div className="bg-white border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Related links</h3>
-              <div className="flex flex-col gap-4">
-                {latestData?.videoLinks?.length > 0 ? (
-                  latestData.videoLinks.map((videoLink, index) => {
-                    return (
-                      <div key={index} className="flex items-center gap-4">
+              <h3 className="text-lg font-semibold mb-4">
+                All Submitted Links
+              </h3>
+
+              {/* Video Links Section */}
+              {latestData?.videoLinks?.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="font-medium text-gray-900 mb-2">
+                    Video Links ({latestData.videoLinks.length}):
+                  </h4>
+                  <div className="space-y-2">
+                    {latestData.videoLinks.map((videoLink, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-50 p-2 rounded border"
+                      >
                         <a
                           href={videoLink}
                           target="_blank"
@@ -265,32 +395,42 @@ const TrendAnalysis = () => {
                           {videoLink}
                         </a>
                       </div>
-                    );
-                  })
-                ) : (
-                  <p className="text-gray-500">No videos available.</p>
-                )}
-              </div>
-              <div className="flex flex-col gap-4">
-                {latestData?.blogLinks?.length > 0 ? (
-                  latestData.blogLinks.map((blogLinks, index) => {
-                    return (
-                      <div key={index} className="flex items-center gap-4">
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Blog Links Section */}
+              {latestData?.blogLinks?.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="font-medium text-gray-900 mb-2">
+                    Blog Links ({latestData.blogLinks.length}):
+                  </h4>
+                  <div className="space-y-2">
+                    {latestData.blogLinks.map((blogLink, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-50 p-2 rounded border"
+                      >
                         <a
-                          href={blogLinks}
+                          href={blogLink}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-500 hover:underline text-sm break-all"
                         >
-                          {blogLinks}
+                          {blogLink}
                         </a>
                       </div>
-                    );
-                  })
-                ) : (
-                  <p className="text-gray-500">No videos available.</p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Show message if no links */}
+              {!latestData?.videoLinks?.length &&
+                !latestData?.blogLinks?.length && (
+                  <p className="text-gray-500 text-sm">No links submitted.</p>
                 )}
-              </div>
             </div>
           </div>
         </div>
@@ -298,49 +438,111 @@ const TrendAnalysis = () => {
       <section className="ml-[22%] mb-20 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white border rounded-lg p-6">
           <h3 className="text-lg font-semibold mb-4">
-            Information form Trusted Sources
+            Information from Trusted Sources
           </h3>
           <ul className="space-y-5">
+            {/* 1. India–U.S. Trade Talks */}
             <li className="text-sm">
-              <strong>Named Entity Recognition (NER):</strong>
+              <strong>
+                India–U.S. Trade Talks: Visit of Trade Minister Piyush Goyal
+              </strong>
               <ul className="pl-4 list-disc">
                 <li>
-                  <strong>Person:</strong> Diljit Dosanjh, Prime Minister of
-                  India
+                  India’s Trade Minister <strong>Piyush Goyal</strong> is set to
+                  visit Washington, D.C. on <strong>22 September 2025</strong>{" "}
+                  for trade talks with the U.S.
                 </li>
                 <li>
-                  <strong>Organization:</strong> Government of India, Prime
-                  Minister's Office
+                  Key issues include U.S. tariffs on Indian goods, H-1B visa fee
+                  increases, agricultural/dairy sector access, and India’s
+                  Russian oil imports.
                 </li>
               </ul>
             </li>
+
+            {/* 2. Partial Solar Eclipse */}
             <li className="text-sm">
-              <strong>Insights drawn from Related Links:</strong>
+              <strong>Partial Solar Eclipse on 21 September 2025</strong>
               <ul className="pl-4 list-disc">
                 <li>
-                  {" "}
-                  Punjabi actor-singer Diljit Dosanjh met Prime Minister
-                  Narendra Modi on Wednesday for a memorable discussion.
+                  A partial solar eclipse (Surya Grahan) is scheduled for{" "}
+                  <strong>21 Sep 2025</strong>, lasting from ~10:59 PM IST to
+                  3:23 AM IST on 22 Sep.
                 </li>
                 <li>
-                  {" "}
-                  Dosanjh shared pictures of the meeting on X, calling it a
-                  fantastic start to 2025 and highlighting their conversation on
-                  music.
+                  Not visible in India, as the Sun will be below the horizon
+                  during the event.
+                </li>
+              </ul>
+            </li>
+
+            {/* 3. Shardiya Navratri */}
+            <li className="text-sm">
+              <strong>Shardiya Navratri 2025</strong>
+              <ul className="pl-4 list-disc">
+                <li>
+                  The festival of <strong>Shardiya Navratri</strong> is
+                  approaching, celebrated with devotion and cultural
+                  festivities.
                 </li>
                 <li>
-                  {" "}
-                  Modi praised Dosanjh's rise from humble beginnings to
-                  achieving international fame during their interaction.{" "}
+                  Ghatasthapana (start date) is expected around{" "}
+                  <strong>22 or 23 September</strong>, depending on auspicious
+                  timings.
+                </li>
+              </ul>
+            </li>
+
+            {/* 4. UPITS 2025 */}
+            <li className="text-sm">
+              <strong>
+                UPITS 2025 – Russia–India Business Dialogue in Greater Noida
+              </strong>
+              <ul className="pl-4 list-disc">
+                <li>
+                  The{" "}
+                  <strong>
+                    Uttar Pradesh International Trade Show (UPITS 2025)
+                  </strong>{" "}
+                  will host a Russia–India Business Dialogue on{" "}
+                  <strong>26 September</strong> in Greater Noida.
                 </li>
                 <li>
-                  {" "}
-                  PM Modi described Dosanjh as a multifaceted talent blending
-                  creativity with tradition in a post on X.{" "}
+                  Focus areas include technology transfer, investment,
+                  education, insurance, and banking.
+                </li>
+              </ul>
+            </li>
+
+            {/* 5. Public Health Concerns */}
+            <li className="text-sm">
+              <strong>Rising Risks & Public Health Concerns</strong>
+              <ul className="pl-4 list-disc">
+                <li>
+                  A study warns climate change could expand habitats of venomous
+                  snakes (“Big Four”), raising snakebite risk in northern and
+                  northeastern India.
                 </li>
                 <li>
-                  The meeting focused on music, culture, and Dosanjh's
-                  contributions to making India's name shine globally.
+                  Floods in Himachal Pradesh, Jammu & Kashmir, and Pakistan have
+                  displaced thousands and damaged infrastructure.
+                </li>
+              </ul>
+            </li>
+
+            {/* 6. Celestial Events */}
+            <li className="text-sm">
+              <strong>Celestial Events Captivating Public Interest</strong>
+              <ul className="pl-4 list-disc">
+                <li>
+                  Earlier in September, India witnessed a{" "}
+                  <strong>total lunar eclipse (Blood Moon)</strong>, widely
+                  shared on social media.
+                </li>
+                <li>
+                  The rare <strong>Chi Cygnids meteor shower</strong>, visible
+                  once every five years, is delighting astronomy enthusiasts
+                  this month.
                 </li>
               </ul>
             </li>

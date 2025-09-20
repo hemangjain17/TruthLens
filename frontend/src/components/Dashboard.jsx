@@ -3,12 +3,12 @@ import Sidebar from "./Sidebar";
 import ApexCharts from "apexcharts";
 import image from "./images/manImg.png";
 import { useAuth } from "../context/authContext";
+import DashboardTutorial from "./DashTut";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [topData, setTopData] = useState(null);
+  const [showTutorial, setShowTutorial] = useState(false);
   const { currentUser } = useAuth();
   const { userLoggedIn } = useAuth();
   const email = currentUser.email;
@@ -17,7 +17,7 @@ const Dashboard = () => {
     const currentTime = new Date();
     const diffInMs = currentTime - createdTime;
     const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-  
+
     if (diffInMinutes < 60) {
       return `${diffInMinutes} min ago`;
     } else if (diffInMinutes < 1440) {
@@ -26,31 +26,36 @@ const Dashboard = () => {
       return `${Math.floor(diffInMinutes / 1440)} days ago`;
     }
   };
+  // Show tutorial on every login
   useEffect(() => {
-        const fetchTopData = async () => {
-            try {
-                const response = await fetch(`https://truthlens.aimsdtu.in:3000/get-top-data?email=${email}`);
-  
-                if (!response.ok) {
-                    throw new Error("Failed to fetch data");
-                }
-  
-                const result = await response.json();
-                setTopData(result.data);
-                console.log(result.data);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-  
-        fetchTopData();
-    }, []);
-    console.log("hello ",topData);
+    // Always show tutorial when component mounts (user logs in)
+    setShowTutorial(true);
+  }, []);
+
+  useEffect(() => {
+    const fetchTopData = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:3000/get-top-data?email=${email}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const result = await response.json();
+        setTopData(result.data);
+        console.log(result.data);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchTopData();
+  }, [email]);
+  console.log("hello ", topData);
   useEffect(() => {
     let trendChart, patternChart, sourceChart;
-
 
     // Initialize Charts Only If the DOM Elements Exist
     const initializeCharts = () => {
@@ -143,9 +148,24 @@ const Dashboard = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleTutorialClose = () => {
+    setShowTutorial(false);
+  };
+
+  // Utility function to reset tutorial (for testing purposes)
+  // Call this from browser console: window.resetDashboardTutorial()
+  useEffect(() => {
+    window.resetDashboardTutorial = () => {
+      setShowTutorial(true);
+    };
+  }, []);
+
   return (
     <div className="flex">
       <Sidebar />
+      {showTutorial && (
+        <DashboardTutorial autoStart={true} onClose={handleTutorialClose} />
+      )}
 
       {/* Mobile Menu Button */}
       <div id="mobile-menu" className="lg:hidden fixed top-4 left-4 z-50">
@@ -449,7 +469,6 @@ const Dashboard = () => {
                           )}
                         </td>
 
-
                         {/* Time Since Creation Column */}
                         <td className="px-4 py-4 text-sm text-gray-900">
                           {item?.createdAt ? (
@@ -461,7 +480,7 @@ const Dashboard = () => {
                           )}
                         </td>
 
-                          {/* Created At Column */}
+                        {/* Created At Column */}
                         <td className="px-4 py-4 text-sm text-gray-900">
                           {item?.createdAt ? (
                             <div className="flex items-center gap-4">

@@ -14,9 +14,9 @@ const Navbar = () => {
       <h1>TruthLens</h1>
       
       <div className="button">
-        <button className="navbar-button" onClick={() => handleNavigation('/signup')}>
+        {/* <button className="navbar-button" onClick={() => handleNavigation('/signup')}>
           Sign Up
-        </button>
+        </button> */}
         <button className="navbar-button" onClick={() => handleNavigation('/signin')}>
           Sign In
         </button>

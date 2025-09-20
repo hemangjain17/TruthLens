@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { auth } from "../firebase/firebase";
 import { toast } from "react-toastify";
+import { getAuth, signOut } from "firebase/auth";
+
 
 
 const Sidebar = () => {
@@ -28,8 +30,8 @@ const Sidebar = () => {
 
   async function handleLogout() {
     try {
-      await auth.signOut();
-      navigate("/signin");
+      await signOut(auth);              // ✅ sign user out
+      navigate("/signin");              // ✅ redirect after logout
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -95,10 +97,10 @@ const Sidebar = () => {
             <i className="fas fa-chart-bar"></i>
             <span>Trends And Reports</span>
           </Link>
-          <Link to="/settings" onClick={handleNavLinkClick}>
+          {/* <Link to="/settings" onClick={handleNavLinkClick}>
             <i className="fas fa-brain"></i>
             <span>Settings</span>
-          </Link>
+          </Link> */}
         </div>
 
         <div className="sidebar-footer">
