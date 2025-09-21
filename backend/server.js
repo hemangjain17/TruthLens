@@ -176,7 +176,7 @@ app.get("/get-top-data", async (req, res) => {
 });
 
 // ----------------- Start Server -----------------
-const PORT = 3000;
+const PORT = 8000;
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`Server running on http://0.0.0.0:${PORT}`)
 );

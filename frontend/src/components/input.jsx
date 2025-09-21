@@ -74,7 +74,7 @@ const InputForm = () => {
 
     // Send the FormData to the backend
     try {
-      const response = await fetch("https://localhost:3000/upload-media", {
+      const response = await fetch("http://localhost:8000/upload-media", {
         method: "POST",
         body: formData, // Send the FormData object
       });

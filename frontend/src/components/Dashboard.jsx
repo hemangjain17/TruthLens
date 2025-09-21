@@ -36,7 +36,7 @@ const Dashboard = () => {
     const fetchTopData = async () => {
       try {
         const response = await fetch(
-          `https://localhost:3000/get-top-data?email=${email}`
+          `http://localhost:8000/get-top-data?email=${email}`
         );
 
         if (!response.ok) {
