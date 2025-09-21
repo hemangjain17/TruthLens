@@ -51,7 +51,7 @@ With a mission rooted in trust, transparency, and accountability, TruthLens leve
 ---
 
 ## 🌐 Future Developments
-- **Jan-Jan Satya**: A B2G initiative empowering citizens to report and verify local news with geotagged content.
+- **Naagrik**: A B2G initiative empowering citizens to report and verify local news with geotagged content.
 - **Expanded Multilingual Support**: Address misinformation across diverse regions globally.
 - **Optimization**: Minimize external LLM API calls and resource dependencies to enhance scalability.
 
