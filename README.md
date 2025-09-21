@@ -50,13 +50,6 @@ With a mission rooted in trust, transparency, and accountability, TruthLens leve
 
 ---
 
-## 🌐 Future Developments
-- **Naagrik**: A B2G initiative empowering citizens to report and verify local news with geotagged content.
-- **Expanded Multilingual Support**: Address misinformation across diverse regions globally.
-- **Optimization**: Minimize external LLM API calls and resource dependencies to enhance scalability.
-
----
-
 ## 🎯 Dashboard Features
 - User and broadcaster-friendly interface for verifying articles and news sources.
 - Provides real-time statistics on verified news, flagged reports, and geotagged inputs from the community.
