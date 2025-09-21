@@ -1,6 +1,8 @@
 # 🕵️‍♂️ TruthLens: Focus On Facts, Blur The False 🌐
 
-TruthLens is dedicated to combating the rapid spread of misinformation in live broadcasts and digital media challenge that has become increasingly urgent in today’s fast-paced information landscape. With a mission rooted in fostering trust and transparency, TruthLens harnesses cutting-edge AI technologies to validate the authenticity of content in real time.
+TruthLens is a cutting-edge AI-powered platform dedicated to combating the rapid spread of misinformation across digital media. In today’s hyper-connected, fast-paced information landscape, false narratives can circulate within seconds—shaping opinions, fueling confusion, and eroding trust.
+
+With a mission rooted in trust, transparency, and accountability, TruthLens leverages advanced machine learning and real-time content validation to verify authenticity as it happens. Unlike traditional fact-checking approaches, TruthLens operates dynamically, empowering media houses, platforms, and everyday users to distinguish between truth and manipulation instantly
 
 ---
 
